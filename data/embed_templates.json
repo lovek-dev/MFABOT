@@ -1,0 +1,29 @@
+{
+  "test1": {
+    "title": "🗂️ RankList",
+    "col1_title": "FIghter ⚔️",
+    "col1_value": "1",
+    "col2_title": "Grinder ⛏️",
+    "col2_value": "Rookie Grinder - New recruit\n Power Grinder - Boosting clan balance + providing help to newbies\n Fletcher - Preparing debuff arrows\n Enchanter - Providing enchanting books\n Blacksmith - Providing g-sword and g-axe\n Expert Grinder - Providing golden apples and enchanted golden apples\n Pot Master - Providing potions and helping people build auto brewers\n Prime Grinder - Providing XP bottles, mending, and enchanting\n Weapons/Bases\n \n Elite Grinder - Preparing g-sets in bulk\n Master Grinder - Supervising all grinders and reporting to Leader",
+    "col3_title": "Moderator",
+    "col3_value": "2"
+  },
+  "test2": {
+    "title": "Rank List 📁",
+    "col1_title": "FIghter ⚔️",
+    "col1_value": "2",
+    "col2_title": "Grinder",
+    "col2_value": "**Rookie Grinder** - New recruit\n **Power Grinder** - Boosting clan balance + providing help to newbies\n **Fletcher** - Preparing debuff arrows\n Enchanter - Providing enchanting books\n **Blacksmith** - Providing g-sword and g-axe\n **Expert Grinder** - Providing golden apples and enchanted golden apples\n **Pot Master** - Providing potions and helping people build auto brewers\n **Prime Grinder** - Providing XP bottles, mending, and enchanting\n Weapons/Bases\n \n **Elite Grinder** - Preparing g-sets in bulk\n **Master Grinder** - Supervising all grinders and reporting to Leader",
+    "col3_title": "Moderator",
+    "col3_value": "**Discord Administration** - Manager For Discord\n **MFA Council** - Manager For Gang's\n **MFA Community Manager** - Makes Discord Decision/n /n **Leader** - Leads the MFA/n **Owner**-Founder Of MFA"
+  },
+  "RANKLIST": {
+    "title": "Rank List 📁",
+    "col1_title": "FIghter  ⚔️",
+    "col1_value": "**Trainee **- Newly Joined\n **Warrior** - Killing Few Players\n **Tank** - Full Geared\n **Guardian** - Helping in Wars\n **Berserker** - Killing and Helping us\n **Assassin** - On Killing Spree\n **Knight** - Involving In More Fights and helping more\n **Specialist** - Being MVP in Big Wars\n **Colonel** - Helping Every War , and Helping us Win\n \n  **Champion** - Tier Tested People\n **Master** - Tier Tested People\n \n  **Co-Warlord** - Director In Clan\n **Warload** - Leader In Sub Clan\n",
+    "col2_title": "Grinder  ⛏️",
+    "col2_value": "**Rookie Grinder** - New recruit\n **Power Grinder** - Boosting clan balance + providing help to newbies\n **Fletcher** - Preparing debuff arrows\n Enchanter - Providing enchanting books\n **Blacksmith** - Providing g-sword and g-axe\n **Expert Grinder** - Providing golden apples and enchanted golden apples\n **Pot Master** - Providing potions and helping people build auto brewers\n **Prime Grinder** - Providing XP bottles, mending, and enchanting\n Weapons/Bases\n \n **Elite Grinder** - Preparing g-sets in bulk\n **Master Grinder** - Supervising all grinders and reporting to Leader",
+    "col3_title": "Moderator  🌐",
+    "col3_value": "**Discord Administration** - Manager For Discord\n **MFA Council** - Manager For Gang's\n **MFA Community Manager** - Makes Discord Decision/n **Leader** - Leads the MFA/n **Owner**-Founder Of MFA"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "bounties": [
+    {
+      "id": "1767161254548",
+      "ign": "specter",
+      "totalAmount": 10000,
+      "contributors": [
+        {
+          "userId": "1040925985618530376",
+          "username": "_devilgamer__",
+          "amount": 10000
+        }
+      ],
+      "creatorId": "1040925985618530376",
+      "createdAt": "2025-12-31T06:07:34.548Z"
+    },
+    {
+      "id": "1767162164643",
+      "ign": "notcool",
+      "totalAmount": 130000,
+      "contributors": [
+        {
+          "userId": "1040925985618530376",
+          "username": "_devilgamer__",
+          "amount": 40000
+        },
+        {
+          "userId": "1280795899097780255",
+          "username": "_dbz_kai1",
+          "amount": 90000
+        }
+      ],
+      "creatorId": "1040925985618530376",
+      "createdAt": "2025-12-31T06:22:44.643Z",
+      "messageId": "1455809145822253191"
+    },
+    {
+      "id": "1767519576132",
+      "ign": "sfsf",
+      "totalAmount": 245435,
+      "contributors": [
+        {
+          "userId": "1381991353923403806",
+          "username": "frawgmanbot",
+          "amount": 245435
+        }
+      ],
+      "creatorId": "1381991353923403806",
+      "createdAt": "2026-01-04T09:39:36.132Z",
+      "messageId": "1457307472682549379"
+    }
+  ]
+}
