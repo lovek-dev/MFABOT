@@ -185,8 +185,8 @@ export async function handleButton(interaction) {
         if (channel) {
           await channel.send({
             embeds: [{
-              title: "🚨 **BOUNTY APPROVED** 🚨",
-              description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Requested By :** <@${requesterId}>`,
+              title: "🚨 **BOUNTY** 🚨",
+              description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Contributors :**\n<@${requesterId}> ($${amount})\n\n**Contributors have to pay the hunter after he shows the proof individually**`,
               color: 0xFF0000,
               timestamp: new Date().toISOString()
             }]
@@ -203,7 +203,20 @@ export async function handleButton(interaction) {
     if (!interaction.member.permissions.has(EmbedBuilder.PermissionFlagsBits?.Administrator || "Administrator")) {
       return interaction.reply({ content: "❌ Only admins can deny bounties.", ephemeral: true });
     }
+
+    const parts = id.split("_");
+    const requesterId = parts[2];
+
+    try {
+      const requester = await interaction.client.users.fetch(requesterId);
+      if (requester) {
+        await requester.send("Dont Use This For Fun");
+      }
+    } catch (e) {
+      console.error("Failed to DM requester:", e.message);
+    }
+
     await interaction.message.delete();
-    return interaction.reply({ content: "❌ Bounty request denied.", ephemeral: true });
+    return interaction.reply({ content: "❌ Bounty request denied and user notified.", ephemeral: true });
   }
 }
