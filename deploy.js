@@ -30,20 +30,19 @@ try {
   console.log(`Found ${commands.length} slash commands to register...`);
   
     const guildIds = ["1402337777252827247", "1438611777482133576"];
-    console.log(`Found ${commands.length} slash commands to register...`);
-    
-    // FIRST: Clear guild commands to remove duplicates
+    console.log(`Registering commands for guilds: ${guildIds.join(", ")}`);
+
     for (const guildId of guildIds) {
       try {
-        console.log(`Clearing commands for guild ${guildId}...`);
-        await rest.put(Routes.applicationGuildCommands(appId, guildId), { body: [] });
-        console.log(`✅ Guild commands cleared for ${guildId}.`);
+        console.log(`Updating commands for guild ${guildId}...`);
+        await rest.put(Routes.applicationGuildCommands(appId, guildId), { body: commands });
+        console.log(`✅ Guild commands registered for ${guildId}.`);
       } catch (err) {
-        console.error(`❌ Failed to clear guild ${guildId}:`, err.message);
+        console.error(`❌ Failed to register guild ${guildId}:`, err.message);
       }
     }
     
-    // SECOND: Register globally (this is the only way to avoid doubles across servers)
+    // Also register globally
     console.log("Registering global commands...");
     await rest.put(Routes.applicationCommands(appId), { body: commands });
     console.log("✅ Global slash commands registered.");

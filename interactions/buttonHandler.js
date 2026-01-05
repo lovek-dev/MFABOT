@@ -146,18 +146,64 @@ export async function handleButton(interaction) {
     });
   }
 
-  if (id.startsWith("set_role_rules_")) {
-    const roleId = id.replace("set_role_rules_", "");
+  if (id.startsWith("approve_bounty_")) {
+    if (!interaction.member.permissions.has(EmbedBuilder.PermissionFlagsBits?.Administrator || "Administrator")) {
+      return interaction.reply({ content: "❌ Only admins can approve bounties.", ephemeral: true });
+    }
+
+    const parts = id.split("_");
+    const ign = parts[2];
+    const amount = parseFloat(parts[3]);
+    const requesterId = parts[4];
+
     const fs = await import("node:fs");
     const path = await import("node:path");
+    const bountiesPath = path.join(process.cwd(), "data", "bounties.json");
     const configPath = path.join(process.cwd(), "config.json");
+
+    let bounties = { bounties: [] };
+    if (fs.existsSync(bountiesPath)) {
+      bounties = JSON.parse(fs.readFileSync(bountiesPath, "utf8"));
+    }
+
+    const newBounty = {
+      id: Date.now().toString(),
+      ign: ign,
+      totalAmount: amount,
+      contributors: [{ userId: requesterId, amount: amount }],
+      creatorId: requesterId,
+      createdAt: new Date().toISOString()
+    };
+
+    bounties.bounties.push(newBounty);
+    fs.writeFileSync(bountiesPath, JSON.stringify(bounties, null, 2));
+
     const cfg = JSON.parse(fs.readFileSync(configPath, "utf8"));
-    cfg.rulesRoleId = roleId;
-    fs.writeFileSync(configPath, JSON.stringify(cfg, null, 2));
-    
-    return interaction.reply({
-      content: `✅ Role <@&${roleId}> will now be given when users accept the rules!`,
-      ephemeral: true
-    });
+    if (cfg.bountyChannelId) {
+      try {
+        const channel = await interaction.client.channels.fetch(cfg.bountyChannelId);
+        if (channel) {
+          await channel.send({
+            embeds: [{
+              title: "🚨 **BOUNTY APPROVED** 🚨",
+              description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Requested By :** <@${requesterId}>`,
+              color: 0xFF0000,
+              timestamp: new Date().toISOString()
+            }]
+          });
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    await interaction.message.delete();
+    return interaction.reply({ content: `✅ Bounty for **${ign}** approved and posted!`, ephemeral: true });
+  }
+
+  if (id.startsWith("deny_bounty_")) {
+    if (!interaction.member.permissions.has(EmbedBuilder.PermissionFlagsBits?.Administrator || "Administrator")) {
+      return interaction.reply({ content: "❌ Only admins can deny bounties.", ephemeral: true });
+    }
+    await interaction.message.delete();
+    return interaction.reply({ content: "❌ Bounty request denied.", ephemeral: true });
   }
 }
