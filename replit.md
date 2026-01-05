@@ -112,6 +112,41 @@ node deploy.js
 ```
 Requires `DISCORD_BOT_TOKEN` and `DISCORD_APPLICATION_ID` environment variables.
 
+## Admin Commands Guide
+
+These commands are restricted to server Administrators.
+
+### Moderation & Management
+- `/kick user: [reason:]` - Kick a user from the server.
+- `/timeout user: duration: [reason:]` - Timeout a user for a specific duration (in seconds).
+- `/unban id: [reason:]` - Unban a user using their Discord ID.
+- `/mod user:` - Special moderation command with enhanced logging.
+- `/setrole role:` - Configure which role is allowed to use bot commands.
+- `/roleset ign_role: rules_role:` - Configure the roles given for IGN setting and Rule acceptance.
+- `/dmrole role: message:` - Send a DM to every member who has a specific role.
+
+### Bounty System (Admin Only)
+- `/requestchannel channel:` - Set the channel where user bounty requests are sent for admin approval.
+- `/bountychannel channel:` - Set the public channel where approved bounties are posted.
+- `/bountyclear [ign:]` - Clear all active bounties, or a specific one if an IGN is provided.
+- **Approval System**: Admin buttons (✅ Accept / ❌ Deny) will appear in the request channel. 
+  - Denying a bounty sends a DM warning to the requester.
+
+### Server Setup & Utility
+- `/setup` - Create the welcome panel with rules and role-claim buttons.
+- `/setupedit [image:] [message:]` - Edit the welcome panel's appearance.
+- `/guidemsg message:` - Update the server guide text.
+- `/absentchannel channel:` - Set the channel for absence reports.
+- `/absentlist` - View all members currently on leave.
+- `/clearabsent user:` - Manually clear a user's absence status.
+- `/teamchannel channel:` - Set the channel for the live team roster.
+- `/kos ign:` - Add an IGN to the Kill On Sight list.
+- `/warlog result: notes:` - Log a clan war outcome.
+
+### Embed Templates
+- `/embed template:` - Post a pre-saved 3-column embed.
+- `/embededit name: [title:] [col1:] [col2:] [col3:]` - Create or edit an embed template.
+
 ## Running the Bot
 ```bash
 npm start
