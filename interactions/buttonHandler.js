@@ -210,7 +210,7 @@ export async function handleButton(interaction) {
     try {
       const requester = await interaction.client.users.fetch(requesterId);
       if (requester) {
-        await requester.send("Dont Use This For Fun");
+        await requester.send("Dont Use Bounty System For Fun , Also It Might lead to MUTE");
       }
     } catch (e) {
       console.error("Failed to DM requester:", e.message);
