@@ -140,7 +140,9 @@ These commands are restricted to server Administrators.
 - `/absentlist` - View all members currently on leave.
 - `/clearabsent user:` - Manually clear a user's absence status.
 - `/teamchannel channel:` - Set the channel for the live team roster.
-- `/kos ign:` - Add an IGN to the Kill On Sight list.
+- `/teamadd ign:` - Add a player's IGN to the team list (Admin only).
+- `/teamremove ign:` - Remove a player's IGN from the team list (Admin only).
+- `/kos ign:` - Add an IGN to the Kill On Sight list (Admin only).
 - `/warlog result: notes:` - Log a clan war outcome.
 
 ### Embed Templates
