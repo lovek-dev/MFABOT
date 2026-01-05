@@ -114,8 +114,10 @@ Requires `DISCORD_BOT_TOKEN` and `DISCORD_APPLICATION_ID` environment variables.
 
 ## Running the Bot
 ```bash
-node index.js
+npm start
 ```
+
+The bot runs on port 5000 with an Express health check server. In Replit, the server binds to `0.0.0.0:5000`.
 
 ## Recent Changes
 - Added auto-responder system with /respond, /listresponses, /removeresponse commands
