@@ -155,6 +155,7 @@ export async function handleButton(interaction) {
     const ign = parts[2];
     const amount = parts[3];
     const requesterId = parts[4];
+    const items = parts[5] || "None";
 
     const fs = await import("node:fs");
     const path = await import("node:path");
@@ -170,6 +171,7 @@ export async function handleButton(interaction) {
       id: Date.now().toString(),
       ign: ign,
       totalAmount: parseFloat(amount),
+      items: items,
       contributors: [{ userId: requesterId, amount: parseFloat(amount) }],
       creatorId: requesterId,
       createdAt: new Date().toISOString()
@@ -187,7 +189,7 @@ export async function handleButton(interaction) {
             content: `<@${requesterId}>`,
             embeds: [{
               title: "🚨 **BOUNTY** 🚨",
-              description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Contributors :**\n<@${requesterId}> ($${amount})\n\n**Contributors have to pay the hunter after he shows the proof individually**`,
+              description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Items :** ${items}\n**Contributors :**\n<@${requesterId}> ($${amount})\n\n**Contributors have to pay the hunter after he shows the proof individually**`,
               color: 0xFF0000,
               timestamp: new Date().toISOString()
             }]

@@ -16,11 +16,17 @@ export default {
         .setDescription("Bounty amount")
         .setRequired(true)
         .setMinValue(1)
+    )
+    .addStringOption(o =>
+      o.setName("items")
+        .setDescription("Optional items to include in the bounty")
+        .setRequired(false)
     ),
 
   async run(client, interaction) {
     const ign = interaction.options.getString("ign");
     const amount = interaction.options.getNumber("amount");
+    const items = interaction.options.getString("items") || "None";
 
     const configPath = path.join(process.cwd(), "config.json");
     const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
@@ -38,7 +44,7 @@ export default {
         const row = new ActionRowBuilder()
           .addComponents(
             new ButtonBuilder()
-              .setCustomId(`approve_bounty_${ign}_${amount}_${interaction.user.id}`)
+              .setCustomId(`approve_bounty_${ign}_${amount}_${interaction.user.id}_${items.replace(/_/g, " ")}`)
               .setLabel("Accept")
               .setEmoji("✅")
               .setStyle(ButtonStyle.Success),
@@ -53,7 +59,7 @@ export default {
           content: `🔔 **New Bounty Request**\nFrom: <@${interaction.user.id}>`,
           embeds: [{
             title: "Bounty Request",
-            description: `**Target IGN:** ${ign}\n**Amount:** $${amount}`,
+            description: `**Target IGN:** ${ign}\n**Amount:** $${amount}\n**Items:** ${items}`,
             color: 0xFFAA00,
             timestamp: new Date().toISOString()
           }],
