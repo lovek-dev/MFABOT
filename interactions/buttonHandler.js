@@ -153,7 +153,7 @@ export async function handleButton(interaction) {
 
     const parts = id.split("_");
     const ign = parts[2];
-    const amount = parseFloat(parts[3]);
+    const amount = parts[3];
     const requesterId = parts[4];
 
     const fs = await import("node:fs");
@@ -169,8 +169,8 @@ export async function handleButton(interaction) {
     const newBounty = {
       id: Date.now().toString(),
       ign: ign,
-      totalAmount: amount,
-      contributors: [{ userId: requesterId, amount: amount }],
+      totalAmount: parseFloat(amount),
+      contributors: [{ userId: requesterId, amount: parseFloat(amount) }],
       creatorId: requesterId,
       createdAt: new Date().toISOString()
     };
@@ -184,6 +184,7 @@ export async function handleButton(interaction) {
         const channel = await interaction.client.channels.fetch(cfg.bountyChannelId);
         if (channel) {
           await channel.send({
+            content: `<@${requesterId}>`,
             embeds: [{
               title: "🚨 **BOUNTY** 🚨",
               description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Contributors :**\n<@${requesterId}> ($${amount})\n\n**Contributors have to pay the hunter after he shows the proof individually**`,
