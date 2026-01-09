@@ -128,6 +128,7 @@ These commands are restricted to server Administrators.
 ### Bounty System (Admin Only)
 - `/requestchannel channel:` - Set the channel where user bounty requests are sent for admin approval.
 - `/bountychannel channel:` - Set the public channel where approved bounties are posted.
+- `/bountyrole role:` - Set the role to be pinged when a bounty is posted.
 - `/bountyclear [ign:]` - Clear all active bounties, or a specific one if an IGN is provided.
 - **Approval System**: Admin buttons (✅ Accept / ❌ Deny) will appear in the request channel. 
   - Denying a bounty sends a DM warning to the requester.

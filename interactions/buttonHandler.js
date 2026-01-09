@@ -185,8 +185,9 @@ export async function handleButton(interaction) {
       try {
         const channel = await interaction.client.channels.fetch(cfg.bountyChannelId);
         if (channel) {
+          const pingContent = cfg.bountyPingRoleId ? `<@&${cfg.bountyPingRoleId}>` : `<@${requesterId}>`;
           await channel.send({
-            content: `<@${requesterId}>`,
+            content: pingContent,
             embeds: [{
               title: "🚨 **BOUNTY** 🚨",
               description: `**IGN :** ${ign}\n**Price :** $${amount}\n**Items :** ${items}\n**Contributors :**\n<@${requesterId}> ($${amount})\n\n**Contributors have to pay the hunter after he shows the proof individually**`,
