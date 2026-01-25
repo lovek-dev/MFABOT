@@ -52,11 +52,12 @@ export default {
   async run(client, interaction) {
     const channel = interaction.options.getChannel("channel");
     const config = loadData(configPath, {});
-    config.channelId = channel.id;
+    if (!config[interaction.guildId]) config[interaction.guildId] = {};
+    config[interaction.guildId].channelId = channel.id;
     saveData(configPath, config);
     
     await interaction.reply({ content: `✅ Team list channel set to ${channel}`, ephemeral: true });
-    await updateTeamMessage(client, interaction.guild, "Team list initialized");
+    // await updateTeamMessage(client, interaction.guild, "Team list initialized");
   },
   // Exporting helper for other commands
   updateTeamMessage

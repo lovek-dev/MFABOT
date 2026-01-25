@@ -29,7 +29,7 @@ const rest = new REST({ version: "10" }).setToken(token);
 try {
   console.log(`Found ${commands.length} slash commands to register...`);
   
-    const guildIds = ["1402337777252827247", "1438611777482133576"];
+    const guildIds = ["1402337777252827247", "1438611777482133576", "1450047942760071221"];
     console.log("Clearing global commands...");
     await rest.put(Routes.applicationCommands(appId), { body: [] });
     console.log("✅ Global commands cleared.");

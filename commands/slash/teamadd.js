@@ -32,6 +32,26 @@ export default {
     saveData(teamPath, team);
     
     await interaction.reply({ content: `✅ Added **${ign}** to the team.`, ephemeral: true });
-    await teamchannel.updateTeamMessage(client, interaction.guild, `➕ Added: ${ign}`);
+    
+    const configPath = path.join(process.cwd(), "data", "team_config.json");
+    const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
+    const guildConfig = config[interaction.guildId] || {};
+    
+    if (guildConfig.channelId) {
+      try {
+        const channel = await client.channels.fetch(guildConfig.channelId);
+        if (channel) {
+          const mainConfigPath = path.join(process.cwd(), "config.json");
+          const mainConfig = JSON.parse(fs.readFileSync(mainConfigPath, "utf8"));
+          const guildMainConfig = mainConfig[interaction.guildId] || {};
+          
+          const customMessage = guildMainConfig.teamAddMessage || "🎉 **New Team Member!**\n{ign} joined TheElites - New Member";
+          const finalMessage = customMessage.replace("{ign}", ign);
+          await channel.send(finalMessage);
+        }
+      } catch (e) {
+        console.error("Failed to send team add message:", e.message);
+      }
+    }
   }
 };
