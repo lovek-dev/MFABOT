@@ -37,9 +37,12 @@ export default {
   async run(client, interaction) {
     const trigger = interaction.options.getString("trigger").toLowerCase();
     const reply = interaction.options.getString("reply");
+    const guildId = interaction.guildId;
 
     const data = loadResponses();
-    data.autoResponses[trigger] = {
+    if (!data.autoResponses[guildId]) data.autoResponses[guildId] = {};
+    
+    data.autoResponses[guildId][trigger] = {
       reply: reply,
       addedBy: interaction.user.id,
       addedAt: new Date().toISOString()

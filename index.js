@@ -149,6 +149,8 @@ client.once("ready", () => {
     const toSend = [];
     const remaining = [];
 
+    // schedules.json is already per-guild in structure if it matches /schedule
+    // Let's ensure loop handles it correctly
     for (const schedule of data.scheduledMessages) {
       const scheduledTime = new Date(schedule.scheduledTime);
       if (scheduledTime <= now) {
@@ -160,7 +162,9 @@ client.once("ready", () => {
 
     for (const schedule of toSend) {
       try {
-        const channel = await client.channels.fetch(schedule.channelId);
+        const guild = await client.guilds.fetch(schedule.guildId).catch(() => null);
+        if (!guild) continue;
+        const channel = await guild.channels.fetch(schedule.channelId).catch(() => null);
         if (channel) {
           const embed = new EmbedBuilder()
             .setTitle(schedule.embed.title)
@@ -168,7 +172,7 @@ client.once("ready", () => {
             .setColor(schedule.embed.color)
             .setTimestamp();
           await channel.send({ embeds: [embed] });
-          console.log(`📨 Sent scheduled message: ${schedule.embed.title}`);
+          console.log(`📨 Sent scheduled message: ${schedule.embed.title} for guild ${schedule.guildId}`);
         }
       } catch (e) {
         console.error(`Failed to send scheduled message ${schedule.id}:`, e.message);

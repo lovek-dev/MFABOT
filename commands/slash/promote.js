@@ -30,6 +30,25 @@ export default {
       .setFooter({ text: `${staff.tag}`, iconURL: staff.displayAvatarURL() })
       .setTimestamp();
 
+    // Log the promotion
+    const promoPath = path.join(process.cwd(), "data", "promotions.json");
+    let allPromos = {};
+    if (fs.existsSync(promoPath)) {
+      try {
+        allPromos = JSON.parse(fs.readFileSync(promoPath, "utf8"));
+      } catch (e) {}
+    }
+    const guildId = interaction.guildId;
+    if (!allPromos[guildId]) allPromos[guildId] = [];
+    allPromos[guildId].push({
+      userId: user.id,
+      from: fromRank,
+      to: toRank,
+      staffId: staff.id,
+      timestamp: new Date().toISOString()
+    });
+    fs.writeFileSync(promoPath, JSON.stringify(allPromos, null, 2));
+
     await interaction.reply({ embeds: [embed] });
   }
 };

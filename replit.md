@@ -159,13 +159,7 @@ npm start
 The bot runs on port 5000 with an Express health check server. In Replit, the server binds to `0.0.0.0:5000`.
 
 ## Recent Changes
-- Added auto-responder system with /respond, /listresponses, /removeresponse commands
-- Added scheduled embed messages with /schedule, /listschedules, /cancelschedule commands
-- Added data storage for responses and schedules in data/ folder
-- Scheduler runs every 30 seconds to check and send due messages
-- Converted all CommonJS files to ES Modules for consistency
-- Fixed duplicate command names (moderation.js renamed to `mod`)
-- Updated token handling to use environment variables
-- Fixed config property mismatches in buttonHandler
-- Added claimRoles array to config
-- Fixed button handler customId mismatches
+- Implemented per-guild data isolation for all features (Teams, War Logs, Promotions, Auto-responses, Schedules, IGNs)
+- Redesigned /promote and /demote with professional embed formats
+- Fixed /teamremove to notify specific channels
+- Updated /respond and /schedule to prevent cross-server interference

@@ -1,4 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import fs from "fs";
+import path from "path";
 
 export default {
   data: new SlashCommandBuilder()
@@ -27,6 +29,25 @@ export default {
       .setColor("Red")
       .setFooter({ text: `${staff.tag}`, iconURL: staff.displayAvatarURL() })
       .setTimestamp();
+
+    // Log the demotion
+    const demoPath = path.join(process.cwd(), "data", "demotions.json");
+    let allDemos = {};
+    if (fs.existsSync(demoPath)) {
+      try {
+        allDemos = JSON.parse(fs.readFileSync(demoPath, "utf8"));
+      } catch (e) {}
+    }
+    const guildId = interaction.guildId;
+    if (!allDemos[guildId]) allDemos[guildId] = [];
+    allDemos[guildId].push({
+      userId: user.id,
+      from: fromRank,
+      to: toRank,
+      staffId: staff.id,
+      timestamp: new Date().toISOString()
+    });
+    fs.writeFileSync(demoPath, JSON.stringify(allDemos, null, 2));
 
     await interaction.reply({ embeds: [embed] });
   }

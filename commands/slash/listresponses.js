@@ -20,7 +20,8 @@ export default {
 
   async run(client, interaction) {
     const data = loadResponses();
-    const responses = Object.entries(data.autoResponses);
+    const guildId = interaction.guildId;
+    const responses = Object.entries(data.autoResponses[guildId] || {});
 
     if (responses.length === 0) {
       return interaction.reply({

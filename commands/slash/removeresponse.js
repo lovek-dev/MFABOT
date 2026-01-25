@@ -30,17 +30,18 @@ export default {
 
   async run(client, interaction) {
     const trigger = interaction.options.getString("trigger").toLowerCase();
+    const guildId = interaction.guildId;
 
     const data = loadResponses();
     
-    if (!data.autoResponses[trigger]) {
+    if (!data.autoResponses[guildId] || !data.autoResponses[guildId][trigger]) {
       return interaction.reply({
         content: `No auto-response found for "**${trigger}**". Use \`/listresponses\` to see all triggers.`,
         ephemeral: true
       });
     }
 
-    delete data.autoResponses[trigger];
+    delete data.autoResponses[guildId][trigger];
     saveResponses(data);
 
     await interaction.reply({
