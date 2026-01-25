@@ -1,12 +1,10 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import fs from "fs";
-import path from "path";
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("promote")
-    .setDescription("Promote a user (Admin only)")
-    .addUserOption(o => o.setName("user").setDescription("The user to promote").setRequired(true))
+    .setName("demote")
+    .setDescription("Demote a user (Admin only)")
+    .addUserOption(o => o.setName("user").setDescription("The user to demote").setRequired(true))
     .addStringOption(o => o.setName("from").setDescription("Current rank").setRequired(true))
     .addStringOption(o => o.setName("to").setDescription("New rank").setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
@@ -18,7 +16,7 @@ export default {
     const staff = interaction.user;
 
     const embed = new EmbedBuilder()
-      .setTitle("📈 Promotion")
+      .setTitle("📉 Demotion")
       .addFields(
         { name: "User", value: `<@${user.id}>\nID: \`${user.id}\``, inline: false },
         { name: "From", value: fromRank, inline: true },
@@ -26,7 +24,7 @@ export default {
         { name: "Staff", value: `<@${staff.id}>\nID: \`${staff.id}\``, inline: false }
       )
       .setThumbnail(user.displayAvatarURL({ dynamic: true }))
-      .setColor("Green")
+      .setColor("Red")
       .setFooter({ text: `${staff.tag}`, iconURL: staff.displayAvatarURL() })
       .setTimestamp();
 

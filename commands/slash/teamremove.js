@@ -32,6 +32,20 @@ export default {
     saveData(teamPath, team);
     
     await interaction.reply({ content: `✅ Removed **${ign}** from the team.`, ephemeral: true });
-    await teamchannel.updateTeamMessage(client, interaction.guild, `➖ Removed: ${ign}`);
+    
+    const configPath = path.join(process.cwd(), "data", "team_config.json");
+    const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, "utf8")) : {};
+    const guildConfig = config[interaction.guildId] || {};
+    
+    if (guildConfig.channelId) {
+      try {
+        const channel = await client.channels.fetch(guildConfig.channelId);
+        if (channel) {
+          await channel.send(`➖ **Team Member Left**\n**${ign}** has been removed from the team.`);
+        }
+      } catch (e) {
+        console.error("Failed to send team remove message:", e.message);
+      }
+    }
   }
 };
