@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import fs from "fs";
 import path from "path";
 import teamchannel from "./teamchannel.js";
@@ -46,7 +46,13 @@ export default {
       try {
         const channel = await client.channels.fetch(guildConfig.channelId);
         if (channel) {
-          await channel.send(`➖ **Team Member Left**\n**${ign}** has been removed from the team.`);
+          const embed = new EmbedBuilder()
+            .setTitle("➖ Team Member Left")
+            .setDescription(`**${ign}** has been removed from the team.`)
+            .setColor(0xFF0000)
+            .setTimestamp();
+            
+          await channel.send({ embeds: [embed] });
         }
       } catch (e) {
         console.error("Failed to send team remove message:", e.message);

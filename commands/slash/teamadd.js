@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import fs from "fs";
 import path from "path";
 import teamchannel from "./teamchannel.js";
@@ -55,7 +55,14 @@ export default {
           
           const customMessage = guildMainConfig.teamAddMessage || "🎉 **New Team Member!**\n{ign} joined TheElites - New Member";
           const finalMessage = customMessage.replace("{ign}", ign);
-          await channel.send(finalMessage);
+          
+          const embed = new EmbedBuilder()
+            .setTitle("➕ Team Member Joined")
+            .setDescription(finalMessage)
+            .setColor(0x00FF00)
+            .setTimestamp();
+            
+          await channel.send({ embeds: [embed] });
         }
       } catch (e) {
         console.error("Failed to send team add message:", e.message);
