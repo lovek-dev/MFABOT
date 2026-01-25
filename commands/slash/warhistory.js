@@ -14,17 +14,24 @@ export default {
 
   async run(client, interaction) {
     const carryUser = interaction.options.getUser("carry");
+    const guildId = interaction.guildId;
     const logPath = path.join(process.cwd(), "data", "warlogs.json");
 
     if (!fs.existsSync(logPath)) {
       return interaction.reply({ content: "No war history found yet.", ephemeral: true });
     }
 
-    let logs = [];
+    let allLogs = {};
     try {
-      logs = JSON.parse(fs.readFileSync(logPath, "utf-8"));
+      allLogs = JSON.parse(fs.readFileSync(logPath, "utf-8"));
     } catch (e) {
       return interaction.reply({ content: "Error reading war history.", ephemeral: true });
+    }
+
+    const logs = allLogs[guildId] || [];
+    
+    if (logs.length === 0) {
+      return interaction.reply({ content: "No war history found for this server.", ephemeral: true });
     }
 
     const totalWars = logs.length;

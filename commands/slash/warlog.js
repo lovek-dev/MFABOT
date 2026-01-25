@@ -105,6 +105,7 @@ export default {
       .setTimestamp();
 
     // Save Log
+    const guildId = interaction.guildId;
     const logData = {
       timestamp: new Date().toISOString(),
       type,
@@ -120,14 +121,16 @@ export default {
     };
     
     const logPath = path.join(process.cwd(), "data", "warlogs.json");
-    let logs = [];
+    let allLogs = {};
     try {
       if (fs.existsSync(logPath)) {
-        logs = JSON.parse(fs.readFileSync(logPath, "utf-8"));
+        allLogs = JSON.parse(fs.readFileSync(logPath, "utf-8"));
       }
     } catch (e) {}
-    logs.push(logData);
-    fs.writeFileSync(logPath, JSON.stringify(logs, null, 2));
+    
+    if (!allLogs[guildId]) allLogs[guildId] = [];
+    allLogs[guildId].push(logData);
+    fs.writeFileSync(logPath, JSON.stringify(allLogs, null, 2));
 
     return interaction.reply({ embeds: [embed] });
   }
