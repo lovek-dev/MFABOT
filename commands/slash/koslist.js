@@ -17,11 +17,19 @@ export default {
     .setDescription("View all IGNs on the KOS list"),
 
   async run(client, interaction) {
-    const kos = loadKOS();
+    const guildId = interaction.guildId;
+    let allKOS = {};
+    if (fs.existsSync(kosPath)) {
+      try {
+        allKOS = JSON.parse(fs.readFileSync(kosPath, "utf8"));
+      } catch (e) {}
+    }
 
-    if (kos.kos.length === 0) {
+    const kos = allKOS[guildId] || [];
+
+    if (kos.length === 0) {
       return interaction.reply({
-        content: "✅ No one on the KOS list!",
+        content: "✅ No one on the KOS list for this server!",
         ephemeral: true
       });
     }
@@ -31,7 +39,7 @@ export default {
       .setColor("DarkRed")
       .setTimestamp();
 
-    kos.kos.forEach((entry, index) => {
+    kos.forEach((entry, index) => {
       embed.addFields({
         name: `${index + 1}. ${entry.ign}`,
         value: `Added: <t:${Math.floor(new Date(entry.addedAt).getTime() / 1000)}:R>`,

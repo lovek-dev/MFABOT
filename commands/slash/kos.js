@@ -28,30 +28,40 @@ export default {
 
   async run(client, interaction) {
     const ign = interaction.options.getString("ign");
-    const kos = loadKOS();
+    const guildId = interaction.guildId;
+    
+    let allKOS = {};
+    if (fs.existsSync(kosPath)) {
+      try {
+        allKOS = JSON.parse(fs.readFileSync(kosPath, "utf8"));
+      } catch (e) {}
+    }
+
+    if (!allKOS[guildId]) allKOS[guildId] = [];
+    const kos = allKOS[guildId];
 
     // Check if already exists
-    const exists = kos.kos.find(k => k.ign.toLowerCase() === ign.toLowerCase());
+    const exists = kos.find(k => k.ign.toLowerCase() === ign.toLowerCase());
     
     if (exists) {
       return interaction.reply({
-        content: `❌ **${ign}** is already on the KOS list!`,
+        content: `❌ **${ign}** is already on the KOS list for this server!`,
         ephemeral: true
       });
     }
 
     // Add to KOS list
-    kos.kos.push({
+    kos.push({
       id: Date.now().toString(),
       ign: ign,
       addedBy: interaction.user.id,
       addedAt: new Date().toISOString()
     });
 
-    saveKOS(kos);
+    saveKOS(allKOS);
 
     interaction.reply({
-      content: `✅ **${ign}** added to the KOS list!`,
+      content: `✅ **${ign}** added to the KOS list for this server!`,
       ephemeral: true
     });
   }
