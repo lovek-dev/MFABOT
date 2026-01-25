@@ -88,7 +88,9 @@ export async function handleButton(interaction) {
       ignData = JSON.parse(fs.readFileSync(ignPath, "utf8"));
     }
     
-    ignData[interaction.user.id] = ign;
+    const guildId = interaction.guildId;
+    if (!ignData[guildId]) ignData[guildId] = {};
+    ignData[guildId][interaction.user.id] = ign;
     
     if (!fs.existsSync(path.dirname(ignPath))) {
       fs.mkdirSync(path.dirname(ignPath), { recursive: true });

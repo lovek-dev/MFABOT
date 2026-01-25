@@ -21,5 +21,25 @@ export default {
       console.error(e);
       message.reply("❌ Error executing command.");
     }
+
+    // Auto-responder
+    const dataPath = "./data/responses.json";
+    try {
+      if (fs.existsSync(dataPath)) {
+        const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+        const guildResponses = data.autoResponses[message.guild.id];
+        if (guildResponses) {
+          const content = message.content.toLowerCase();
+          for (const [trigger, info] of Object.entries(guildResponses)) {
+            if (content.includes(trigger)) {
+              await message.reply(info.reply);
+              break;
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Auto-responder error:", error);
+    }
   }
 };
