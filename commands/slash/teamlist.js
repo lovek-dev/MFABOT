@@ -9,14 +9,17 @@ export default {
     .setName("teamlist")
     .setDescription("View the current team members"),
   async run(client, interaction) {
+    const guildId = interaction.guildId;
+    
     if (!fs.existsSync(teamPath)) {
       return interaction.reply({ content: "The team list is currently empty.", ephemeral: true });
     }
 
-    const team = JSON.parse(fs.readFileSync(teamPath, "utf-8"));
+    const allTeams = JSON.parse(fs.readFileSync(teamPath, "utf-8"));
+    const team = allTeams[guildId] || [];
     
     if (team.length === 0) {
-      return interaction.reply({ content: "The team list is currently empty.", ephemeral: true });
+      return interaction.reply({ content: "The team list for this server is currently empty.", ephemeral: true });
     }
 
     const sortedTeam = team.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));

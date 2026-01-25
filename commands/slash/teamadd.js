@@ -22,14 +22,22 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async run(client, interaction) {
     const ign = interaction.options.getString("ign");
-    let team = loadData(teamPath, []);
+    const guildId = interaction.guildId;
+    
+    let allTeams = {};
+    if (fs.existsSync(teamPath)) {
+      allTeams = JSON.parse(fs.readFileSync(teamPath, "utf-8"));
+    }
+    
+    if (!allTeams[guildId]) allTeams[guildId] = [];
+    let team = allTeams[guildId];
     
     if (team.includes(ign)) {
-      return interaction.reply({ content: `❌ **${ign}** is already in the list.`, ephemeral: true });
+      return interaction.reply({ content: `❌ **${ign}** is already in the list for this server.`, ephemeral: true });
     }
 
     team.push(ign);
-    saveData(teamPath, team);
+    saveData(teamPath, allTeams);
     
     await interaction.reply({ content: `✅ Added **${ign}** to the team.`, ephemeral: true });
     

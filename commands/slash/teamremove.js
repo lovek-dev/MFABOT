@@ -22,14 +22,19 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async run(client, interaction) {
     const ign = interaction.options.getString("ign");
-    let team = loadData(teamPath, []);
+    const guildId = interaction.guildId;
+
+    let allTeams = {};
+    if (fs.existsSync(teamPath)) {
+      allTeams = JSON.parse(fs.readFileSync(teamPath, "utf-8"));
+    }
     
-    if (!team.includes(ign)) {
-      return interaction.reply({ content: `❌ **${ign}** is not in the list.`, ephemeral: true });
+    if (!allTeams[guildId] || !allTeams[guildId].includes(ign)) {
+      return interaction.reply({ content: `❌ **${ign}** is not in the list for this server.`, ephemeral: true });
     }
 
-    team = team.filter(name => name !== ign);
-    saveData(teamPath, team);
+    allTeams[guildId] = allTeams[guildId].filter(name => name !== ign);
+    saveData(teamPath, allTeams);
     
     await interaction.reply({ content: `✅ Removed **${ign}** from the team.`, ephemeral: true });
     
