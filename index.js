@@ -162,9 +162,18 @@ client.once("ready", () => {
 
     for (const schedule of toSend) {
       try {
-        const guild = await client.guilds.fetch(schedule.guildId).catch(() => null);
-        if (!guild) continue;
-        const channel = await guild.channels.fetch(schedule.channelId).catch(() => null);
+        const guild = await client.guilds.fetch(schedule.guildId).catch((err) => {
+          console.error(`Error fetching guild ${schedule.guildId}:`, err.message);
+          return null;
+        });
+        if (!guild) {
+          console.log(`Guild ${schedule.guildId} not found, skipping schedule ${schedule.id}`);
+          continue;
+        }
+        const channel = await guild.channels.fetch(schedule.channelId).catch((err) => {
+          console.error(`Error fetching channel ${schedule.channelId} in guild ${schedule.guildId}:`, err.message);
+          return null;
+        });
         if (channel) {
           const embed = new EmbedBuilder()
             .setTitle(schedule.embed.title)
