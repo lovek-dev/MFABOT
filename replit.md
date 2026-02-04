@@ -123,7 +123,7 @@ These commands are restricted to server Administrators.
 - `/mod user:` - Special moderation command with enhanced logging.
 - `/setrole role:` - Configure which role is allowed to use bot commands.
 - `/roleset ign_role: rules_role:` - Configure the roles given for IGN setting and Rule acceptance.
-- `/dmrole role: message:` - Send a DM to every member who has a specific role.
+- `/discordstamp date: time: timezone: [format:]` - Generate a dynamic Discord timestamp.
 
 ### Bounty System (Admin Only)
 - `/requestchannel channel:` - Set the channel where user bounty requests are sent for admin approval.
