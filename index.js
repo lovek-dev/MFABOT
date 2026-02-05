@@ -1,26 +1,5 @@
-// ==========================
-// Imports
-// ==========================
-import express from "express";
-import { Client, GatewayIntentBits, Partials, Collection, ActivityType } from "discord.js";
-import fs from "fs";
+import { Client, GatewayIntentBits, Partials, ActivityType } from "discord.js";
 
-// ==========================
-// Express App (Status Server)
-// ==========================
-const app = express();
-
-app.get("/health", (req, res) => {
-  res.status(200).send("OK");
-});
-
-app.get("/", (req, res) => {
-  res.send("🟢 Bot is Alive");
-});
-
-// ==========================
-// Discord Client
-// ==========================
 const token = process.env.DISCORD_BOT_TOKEN;
 
 if (!token) {
@@ -40,11 +19,6 @@ const client = new Client({
   partials: [Partials.Channel]
 });
 
-client.commands = new Collection();
-
-// ==========================
-// Ready Event
-// ==========================
 client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 
@@ -53,18 +27,8 @@ client.once("ready", () => {
   });
 });
 
-// ==========================
-// Login → THEN start Express
-// ==========================
 client.login(token)
-  .then(() => {
-    console.log("🔑 Discord login successful");
-
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, "0.0.0.0", () => {
-      console.log(`🌐 Status server running on port ${PORT}`);
-    });
-  })
+  .then(() => console.log("🔑 Discord login successful"))
   .catch(err => {
     console.error("❌ Discord login failed:", err);
     process.exit(1);
