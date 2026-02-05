@@ -2,7 +2,7 @@
 // Imports
 // ==========================
 import express from "express";
-import { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, ActivityType } from "discord.js";
+import { Client, GatewayIntentBits, Partials, Collection, ActivityType } from "discord.js";
 import fs from "fs";
 import config from "./config.json" with { type: "json" };
 import { handleButton } from "./interactions/buttonHandler.js";
@@ -96,18 +96,18 @@ for (const file of fs.readdirSync("./events").filter(f => f.endsWith(".js"))) {
 }
 
 // ==========================
-// Ready Event
+// Ready Event (FIXED)
 // ==========================
 client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 
   client.user.setActivity("One of the strongest clan 🏯", {
-    type: ActivityType.Custom
+    type: ActivityType.Playing
   });
 });
 
 // ==========================
-// LOGIN FIRST (CRITICAL FIX)
+// Login
 // ==========================
 client.login(token)
   .then(() => console.log("🔑 Discord login successful"))
@@ -123,4 +123,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🌐 Status server running on port ${PORT}`);
 });
-
