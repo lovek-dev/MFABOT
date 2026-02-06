@@ -1,13 +1,3 @@
-import express from "express";
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.get("/", (req, res) => res.send("Bot is online!"));
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 import { Client, GatewayIntentBits, Partials, ActivityType } from "discord.js";
 
 const token = process.env.DISCORD_BOT_TOKEN;
@@ -16,8 +6,6 @@ if (!token) {
   console.error("❌ DISCORD_BOT_TOKEN is missing!");
   process.exit(1);
 }
-
-console.log("TOKEN EXISTS:", true);
 
 const client = new Client({
   intents: [
@@ -36,6 +24,8 @@ client.once("ready", () => {
     type: ActivityType.Playing
   });
 });
+
+console.log("TOKEN EXISTS: true");
 
 client.login(token)
   .then(() => console.log("🔑 Discord login successful"))
