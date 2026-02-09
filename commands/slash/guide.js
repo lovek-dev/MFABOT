@@ -14,12 +14,7 @@ export default {
       return interaction.reply({ content: "The guide hasn't been set up yet by an administrator.", ephemeral: true });
     }
 
-    const allConfigs = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-    const config = allConfigs[interaction.guildId];
-
-    if (!config) {
-      return interaction.reply({ content: "The guide hasn't been set up yet for this server by an administrator.", ephemeral: true });
-    }
+    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 
     const embed = new EmbedBuilder()
       .setTitle(config.title)

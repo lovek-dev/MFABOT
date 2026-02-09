@@ -30,11 +30,9 @@ try {
   console.log(`Found ${commands.length} slash commands to register...`);
   
     const guildIds = ["1402337777252827247", "1438611777482133576", "1450047942760071221"];
-    
-    // Register global commands for Render/Production
-    console.log("Registering global commands...");
-    await rest.put(Routes.applicationCommands(appId), { body: commands });
-    console.log("✅ Global commands registered.");
+    console.log("Clearing global commands...");
+    await rest.put(Routes.applicationCommands(appId), { body: [] });
+    console.log("✅ Global commands cleared.");
 
     for (const guildId of guildIds) {
       try {

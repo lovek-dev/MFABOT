@@ -1,8 +1,6 @@
 {
-  "name": "mfa-bot",
+  "name": "MFA-BOT",
   "version": "1.0.0",
-  "private": true,
-  "license": "MIT",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -10,10 +8,10 @@
     "deploy": "node deploy.js"
   },
   "dependencies": {
-    "discord.js": "^14.16.3",
-    "express": "^4.19.2"
+    "discord.js": "^14.25.1",
+    "express": "^5.0.1"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": ">=18.0.0"
   }
 }
