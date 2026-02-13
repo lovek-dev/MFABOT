@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, ActivityType } from "discord.js";
 import fs from "fs";
@@ -75,7 +76,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
     console.log(`Alive Server running on port ${PORT}`);
 });
 
@@ -102,11 +103,18 @@ function saveSchedules(data) {
   fs.writeFileSync("./data/schedules.json", JSON.stringify(data, null, 2));
 }
 
-const token = process.env.DISCORD_BOT_TOKEN;
+// Token handling with debug logs
+const token = process.env.DISCORD_TOKEN || process.env.DISCORD_BOT_TOKEN;
+
+console.log("--- Login Debug Info ---");
+console.log(`Token exists: ${!!token}`);
+if (token) {
+    console.log(`Token length: ${token.length}`);
+}
+console.log("Attempting to login...");
 
 if (!token) {
-  console.error("❌ DISCORD_BOT_TOKEN environment variable is not set!");
-  process.exit(1);
+  throw new Error("DISCORD_TOKEN is not defined");
 }
 
 const client = new Client({
@@ -119,6 +127,15 @@ const client = new Client({
     GatewayIntentBits.GuildMessageReactions
   ],
   partials: [Partials.Channel, Partials.Message, Partials.Reaction]
+});
+
+// Error Handlers
+client.on("error", console.error);
+process.on("unhandledRejection", (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+process.on("uncaughtException", (err) => {
+    console.error('Uncaught Exception:', err);
 });
 
 client.commands = new Collection();
@@ -142,7 +159,7 @@ for (const file of slashFiles) {
 
 // Ready event
 client.once("ready", () => {
-  console.log(`✅ Logged in as ${client.user.tag}`);
+  console.log(`Logged in as ${client.user.tag}`);
   
   client.user.setActivity("One of the strongest clan  🏯", { type: ActivityType.Custom });
   
@@ -199,5 +216,4 @@ for (const file of eventFiles) {
 }
 
 // Login
-client.login(process.env.DISCORD_BOT_TOKEN);
-
+client.login(token);
