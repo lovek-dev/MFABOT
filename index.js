@@ -199,5 +199,5 @@ for (const file of eventFiles) {
 }
 
 // Login
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_BOT_TOKEN);
 
