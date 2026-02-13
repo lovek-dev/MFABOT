@@ -1,7 +1,13 @@
 import express from "express";
+import { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, ActivityType } from "discord.js";
+import fs from "fs";
+import path from "path";
+import { logAction } from "./utils/logger.js";
+import config from "./config.json" with { type: "json" };
+import { handleButton } from "./interactions/buttonHandler.js";
 
+// --- Minimal Express Server for Render ---
 const app = express();
-
 app.get("/", (req, res) => {
     res.send(`
         <!DOCTYPE html>
@@ -73,12 +79,7 @@ app.listen(PORT, "0.0.0.0", () => {
     console.log(`Alive Server running on port ${PORT}`);
 });
 
-import { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, ActivityType } from "discord.js";
-import fs from "fs";
-import { logAction } from "./utils/logger.js";
-import config from "./config.json" with { type: "json" };
-import { handleButton } from "./interactions/buttonHandler.js";
-
+// --- Discord Bot Logic ---
 function loadResponses() {
   try {
     const data = fs.readFileSync("./data/responses.json", "utf8");
@@ -124,14 +125,16 @@ client.commands = new Collection();
 client.prefixCommands = new Collection();
 
 // Load prefix commands
-for (const file of fs.readdirSync("./commands/prefix").filter(f => f.endsWith(".js"))) {
+const prefixFiles = fs.readdirSync("./commands/prefix").filter(f => f.endsWith(".js"));
+for (const file of prefixFiles) {
   const cmd = (await import(`./commands/prefix/${file}`)).default;
   client.prefixCommands.set(cmd.name, cmd);
 }
 
 // Load slash commands
 client.slash = [];
-for (const file of fs.readdirSync("./commands/slash").filter(f => f.endsWith(".js"))) {
+const slashFiles = fs.readdirSync("./commands/slash").filter(f => f.endsWith(".js"));
+for (const file of slashFiles) {
   const cmd = (await import(`./commands/slash/${file}`)).default;
   client.commands.set(cmd.data.name, cmd);
   client.slash.push(cmd.data.toJSON());
@@ -149,8 +152,6 @@ client.once("ready", () => {
     const toSend = [];
     const remaining = [];
 
-    // schedules.json is already per-guild in structure if it matches /schedule
-    // Let's ensure loop handles it correctly
     for (const schedule of data.scheduledMessages) {
       const scheduledTime = new Date(schedule.scheduledTime);
       if (scheduledTime <= now) {
@@ -186,14 +187,9 @@ client.once("ready", () => {
   }, 30000);
 });
 
-// Prefix message handler & Auto-responder
-// (Handler moved to events/messageCreate.js)
-
-// Slash commands & Button handler
-// (Handler moved to events/interactionCreate.js)
-
 // Load events
-for (const file of fs.readdirSync("./events").filter(f => f.endsWith(".js"))) {
+const eventFiles = fs.readdirSync("./events").filter(f => f.endsWith(".js"));
+for (const file of eventFiles) {
   const event = (await import(`./events/${file}`)).default;
   if (event.once) {
     client.once(event.name, (...args) => event.run(client, ...args));
@@ -201,7 +197,6 @@ for (const file of fs.readdirSync("./events").filter(f => f.endsWith(".js"))) {
     client.on(event.name, (...args) => event.run(client, ...args));
   }
 }
-
 
 // Login
 client.login(token);
